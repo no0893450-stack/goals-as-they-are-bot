@@ -9,41 +9,44 @@ import json
 import os
 from datetime import datetime
 
-TOKEN = os.getenv("8954629911:AAEWmYf-R2Qxmexi1WL0gVFwgNF6_enIasY")
+TOKEN = os.getenv("BOT_TOKEN")
 STATS_FILE = "stats.json"
 
 if not TOKEN:
-raise ValueError("BOT_TOKEN is not set")
+    raise ValueError("BOT_TOKEN is not set")
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
-app = Flask(**name**)
+app = Flask(__name__)
+
 
 @app.route("/")
 def home():
-return "Bot is alive!"
+    return "Bot is alive!"
+
 
 def run_web_server():
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
 
-def load_stats():
-if not os.path.exists(STATS_FILE):
-return {"users": [], "goals": []}
 
-```
-with open(STATS_FILE, "r", encoding="utf-8") as file:
-    return json.load(file)
-```
+def load_stats():
+    if not os.path.exists(STATS_FILE):
+        return {"users": [], "goals": []}
+
+    with open(STATS_FILE, "r", encoding="utf-8") as file:
+        return json.load(file)
+
 
 def save_stats(stats):
-with open(STATS_FILE, "w", encoding="utf-8") as file:
-json.dump(stats, file, ensure_ascii=False, indent=2)
+    with open(STATS_FILE, "w", encoding="utf-8") as file:
+        json.dump(stats, file, ensure_ascii=False, indent=2)
+
 
 def add_goal(message: Message, goal: str):
-stats = load_stats()
-user_id = message.from_user.id
+    stats = load_stats()
+    user_id = message.from_user.id
 
 ```
 if user_id not in stats["users"]:
