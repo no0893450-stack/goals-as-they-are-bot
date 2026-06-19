@@ -64,7 +64,7 @@ save_stats(stats)
 
 @dp.message(CommandStart())
 async def start(message: Message):
-await message.answer(
+    await message.answer(
 "Опишіть свою ціль, будь ласка.\n\n"
 "Ваш помічник допоможе сформулювати її правильно.\n\n"
 "Почніть повідомлення зі слів:\n\n"
@@ -73,9 +73,8 @@ await message.answer(
 
 @dp.message(Command("stats"))
 async def stats_handler(message: Message):
-stats = load_stats()
+    stats = load_stats()
 
-```
 users_count = len(stats["users"])
 goals_count = len(stats["goals"])
 last_goals = stats["goals"][-5:]
@@ -94,14 +93,12 @@ else:
         text += f"— {item['goal']}\n"
 
 await message.answer(text)
-```
 
 @dp.message()
 async def reply(message: Message):
 text = message.text.strip()
 lower_text = text.lower()
 
-```
 if lower_text.startswith("мені потрібно "):
     goal = text[14:].strip()
 elif lower_text.startswith("треба "):
@@ -151,7 +148,6 @@ gifs = [
 
 await message.answer(random.choice(messages))
 await message.answer_animation(random.choice(gifs))
-```
 
 async def main():
 threading.Thread(target=run_web_server, daemon=True).start()
