@@ -65,93 +65,97 @@ save_stats(stats)
 @dp.message(CommandStart())
 async def start(message: Message):
     await message.answer(
-"Опишіть свою ціль, будь ласка.\n\n"
-"Ваш помічник допоможе сформулювати її правильно.\n\n"
-"Почніть повідомлення зі слів:\n\n"
-""Мені потрібно...""
-)
+        "Опишіть свою ціль, будь ласка.\n\n"
+        "Ваш помічник допоможе сформулювати її правильно.\n\n"
+        "Почніть повідомлення зі слів:\n\n"
+        "\"Мені потрібно...\""
+    )
+
 
 @dp.message(Command("stats"))
 async def stats_handler(message: Message):
     stats = load_stats()
 
-users_count = len(stats["users"])
-goals_count = len(stats["goals"])
-last_goals = stats["goals"][-5:]
+    users_count = len(stats["users"])
+    goals_count = len(stats["goals"])
+    last_goals = stats["goals"][-5:]
 
-text = (
-    "📊 Статистика бота\n\n"
-    f"👥 Користувачів: {users_count}\n"
-    f"📝 Цілей сформульовано: {goals_count}\n\n"
-    "Останні цілі:\n"
-)
+    text = (
+        "📊 Статистика бота\n\n"
+        f"👥 Користувачів: {users_count}\n"
+        f"📝 Цілей сформульовано: {goals_count}\n\n"
+        "Останні цілі:\n"
+    )
 
-if not last_goals:
-    text += "Поки що цілей немає."
-else:
-    for item in last_goals:
-        text += f"— {item['goal']}\n"
+    if not last_goals:
+        text += "Поки що цілей немає."
+    else:
+        for item in last_goals:
+            text += f"— {item['goal']}\n"
 
-await message.answer(text)
+    await message.answer(text)
+
 
 @dp.message()
 async def reply(message: Message):
-text = message.text.strip()
-lower_text = text.lower()
+    text = message.text.strip()
+    lower_text = text.lower()
 
-if lower_text.startswith("мені потрібно "):
-    goal = text[14:].strip()
-elif lower_text.startswith("треба "):
-    goal = text[6:].strip()
-elif lower_text.startswith("потрібно "):
-    goal = text[8:].strip()
-else:
+    if lower_text.startswith("мені потрібно "):
+        goal = text[14:].strip()
+    elif lower_text.startswith("треба "):
+        goal = text[6:].strip()
+    elif lower_text.startswith("потрібно "):
+        goal = text[8:].strip()
+    else:
+        await message.answer(
+            'Будь ласка, почніть повідомлення зі слів:\n\n"Мені потрібно..."'
+        )
+        return
+
+    add_goal(message, goal)
+
+    score = random.randint(7, 10)
+
     await message.answer(
-        'Будь ласка, почніть повідомлення зі слів:\n\n"Мені потрібно..."'
+        f'Спробуйте так:\n\n<b>"А хулі би мені не {goal.lower()}?"</b>',
+        parse_mode="HTML"
     )
-    return
 
-add_goal(message, goal)
+    messages = [
+        f"💪 Ціль потужна! {score}/10! Але ти впораєшся!",
+        f"🚀 Серйозна заявка. {score}/10. Пішла жара!",
+        f"🔥 Ціль прийнята. Рівень складності: {score}/10. Але хто, як не ти?",
+        f"✨ Непросто, але красиво. {score}/10. Можна робити!",
+        f"😎 Ого. Ціль має характер. {score}/10 за драматургію!",
+        f"🦾 Схоже на виклик. {score}/10. Виклики існують, щоб їх приймати.",
+        f"🐱 План звучить амбітно. {score}/10. Кіт схвалює.",
+        "🎯 Це вже не мрія. Це майбутня галочка в списку справ.",
+        f"⚡ Потенціал відчувається. {score}/10. Поїхали!",
+        f"🏆 Майбутня перемога зафіксована. {score}/10. Залишилось її отримати."
+    ]
 
-score = random.randint(7, 10)
+    gifs = [
+        "https://media.giphy.com/media/12XDYvMJNcmLgQ/giphy.gif",
+        "https://media.giphy.com/media/ACcXRXwUqJ6Ok/giphy.gif",
+        "https://media.giphy.com/media/l41lFw057lAJQMwg0/giphy.gif",
+        "https://media.giphy.com/media/26u4cqiYI30juCOGY/giphy.gif",
+        "https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif",
+        "https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif",
+        "https://media.giphy.com/media/111ebonMs90YLu/giphy.gif",
+        "https://media.giphy.com/media/ely3apij36BJhoZ234/giphy.gif",
+        "https://media.giphy.com/media/artj92V8o75VPL7AeQ/giphy.gif",
+        "https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif"
+    ]
 
-await message.answer(
-    f'Спробуйте так:\n\n<b>"А хулі би мені не {goal.lower()}?"</b>',
-    parse_mode="HTML"
-)
+    await message.answer(random.choice(messages))
+    await message.answer_animation(random.choice(gifs))
 
-messages = [
-    f"💪 Ціль потужна! {score}/10! Але ти впораєшся!",
-    f"🚀 Серйозна заявка. {score}/10. Пішла жара!",
-    f"🔥 Ціль прийнята. Рівень складності: {score}/10. Але хто, як не ти?",
-    f"✨ Непросто, але красиво. {score}/10. Можна робити!",
-    f"😎 Ого. Ціль має характер. {score}/10 за драматургію!",
-    f"🦾 Схоже на виклик. {score}/10. Виклики існують, щоб їх приймати.",
-    f"🐱 План звучить амбітно. {score}/10. Кіт схвалює.",
-    "🎯 Це вже не мрія. Це майбутня галочка в списку справ.",
-    f"⚡ Потенціал відчувається. {score}/10. Поїхали!",
-    f"🏆 Майбутня перемога зафіксована. {score}/10. Залишилось її отримати."
-]
-
-gifs = [
-    "https://media.giphy.com/media/12XDYvMJNcmLgQ/giphy.gif",
-    "https://media.giphy.com/media/ACcXRXwUqJ6Ok/giphy.gif",
-    "https://media.giphy.com/media/l41lFw057lAJQMwg0/giphy.gif",
-    "https://media.giphy.com/media/26u4cqiYI30juCOGY/giphy.gif",
-    "https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif",
-    "https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif",
-    "https://media.giphy.com/media/111ebonMs90YLu/giphy.gif",
-    "https://media.giphy.com/media/ely3apij36BJhoZ234/giphy.gif",
-    "https://media.giphy.com/media/artj92V8o75VPL7AeQ/giphy.gif",
-    "https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif"
-]
-
-await message.answer(random.choice(messages))
-await message.answer_animation(random.choice(gifs))
 
 async def main():
-threading.Thread(target=run_web_server, daemon=True).start()
-await dp.start_polling(bot)
+    threading.Thread(target=run_web_server, daemon=True).start()
+    await dp.start_polling(bot)
 
-if name == "main":
-asyncio.run(main())
+
+if __name__ == "__main__":
+    asyncio.run(main())
