@@ -13,7 +13,7 @@ TOKEN = os.getenv("8954629911:AAEWmYf-R2Qxmexi1WL0gVFwgNF6_enIasY")
 STATS_FILE = "stats.json"
 
 if not TOKEN:
-raise ValueError("8954629911:AAEWmYf-R2Qxmexi1WL0gVFwgNF6_enIasY is not set")
+raise ValueError("BOT_TOKEN is not set")
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
