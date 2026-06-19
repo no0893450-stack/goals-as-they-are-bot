@@ -12,19 +12,17 @@ from datetime import datetime
 TOKEN = os.getenv("8954629911:AAEWmYf-R2Qxmexi1WL0gVFwgNF6_enIasY")
 STATS_FILE = "stats.json"
 
-TOKEN = os.getenv("BOT_TOKEN")
-
 if not TOKEN:
-    raise ValueError("BOT_TOKEN is not set")
-    
+raise ValueError("BOT_TOKEN is not set")
+
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
-app = Flask(__name__)
+app = Flask(**name**)
 
 @app.route("/")
 def home():
-     return "Bot is alive!"
+return "Bot is alive!"
 
 def run_web_server():
 port = int(os.environ.get("PORT", 10000))
@@ -32,7 +30,7 @@ app.run(host="0.0.0.0", port=port)
 
 def load_stats():
 if not os.path.exists(STATS_FILE):
-   return {"users": [], "goals": []}
+return {"users": [], "goals": []}
 
 ```
 with open(STATS_FILE, "r", encoding="utf-8") as file:
