@@ -9,7 +9,7 @@ import json
 import os
 from datetime import datetime
 
-TOKEN = os.getenv("BOT_TOKEN")
+TOKEN = os.getenv("8954629911:AAEWmYf-R2Qxmexi1WL0gVFwgNF6_enIasY")
 STATS_FILE = "stats.json"
 
 if not TOKEN:
