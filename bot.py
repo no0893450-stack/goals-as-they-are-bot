@@ -25,8 +25,8 @@ def home():
 return "Bot is alive!"
 
 def run_web_server():
-port = int(os.environ.get("PORT", 10000))
-app.run(host="0.0.0.0", port=port)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
 
 def load_stats():
 if not os.path.exists(STATS_FILE):
