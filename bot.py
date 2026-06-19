@@ -48,7 +48,7 @@ def add_goal(message: Message, goal: str):
     stats = load_stats()
     user_id = message.from_user.id
 
-```
+
 if user_id not in stats["users"]:
     stats["users"].append(user_id)
 
@@ -60,7 +60,7 @@ stats["goals"].append({
 })
 
 save_stats(stats)
-```
+
 
 @dp.message(CommandStart())
 async def start(message: Message):
@@ -157,5 +157,5 @@ async def main():
 threading.Thread(target=run_web_server, daemon=True).start()
 await dp.start_polling(bot)
 
-if **name** == "**main**":
+if name == "main":
 asyncio.run(main())
